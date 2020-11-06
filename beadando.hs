@@ -1,3 +1,6 @@
+
+import Data.List
+----------------------------------------------------------------PREDEFINED
 type Dictionary = [(Char, Integer)]
 dictionary :: [Char] -> Dictionary
 dictionary x = zip x [1..]
@@ -34,36 +37,37 @@ primeList = 2:[ x | x <- [3,5..], isPrime x]
 ----------------------------------------------------------------PREDEFINED ENDS
 
 ----------------------------------------------------------------USER DEFINED
-
 charToNum :: Dictionary -> Char -> Integer
 charToNum [] char_to_find = 0
-charToNum dict char_to_find  = if  char_to_find `notElem` [key | key_value_iterator<- dict, let key=(fst key_value_iterator)] 
-                               then 0 
-                               else  head [value | (key,value) <- dict, key == char_to_find]
+charToNum ((key,value):rest_of_dict) char_to_find
+ | key == char_to_find = value
+ | otherwise = charToNum rest_of_dict char_to_find
 
 
 numToChar :: Dictionary -> Integer -> Char
 numToChar [] number_to_find = '*'
-numToChar dict number_to_find = if  number_to_find `notElem` [value | key_value_iterator<- dict, let value=(snd key_value_iterator)] 
-                                then '*' 
-                                else  head [key | (key,value) <- dict, value == number_to_find]
+numToChar ((key,value):rest_of_number) number_to_find
+ | value == number_to_find = key
+ | otherwise = numToChar rest_of_number number_to_find
 
 
 translate :: Dictionary -> String -> [Integer]
-translate dict string_to_transform = [ x | string_iterator<-string_to_transform, let x = charToNum dict string_iterator]
+translate dict [] = []
+translate dict (letter:rest_of_string) = charToNum dict letter : translate dict rest_of_string
 
 
 encode :: Dictionary -> String -> Integer
 encode [] string_to_encode = 1
 encode dict "" = 1
-encode dict string_to_encode = product[(primeList !! prim)^betu_sorszama | let x = (translate dict string_to_encode),(prim, betu_sorszama)<-(zip [0..] x)]
+encode dict string_to_encode = product[(primeList !! prime)^char_in_digits | let x = (translate dict string_to_encode),(prime, char_in_digits)<-(zip [0..] x)]
 
+smallestPrimeDivisor :: Integer -> Integer
+smallestPrimeDivisor szam = head [x | x<-[2..szam], szam `mod` x==0, isPrime x]
 
 primeFactorization :: Integer -> [Integer]
 primeFactorization 1 = []
-primeFactorization number_to_factorize = p : primeFactorization (number_to_factorize `div` p) 
-                          where p = smallestPrimeDivisor number_to_factorize  
+primeFactorization number_to_factorize = (smallestPrimeDivisor number_to_factorize) : primeFactorization (number_to_factorize `div` (smallestPrimeDivisor number_to_factorize)) 
 
-                          
-smallestPrimeDivisor :: Integer -> Integer
-smallestPrimeDivisor szam = head [x| x<-[2..szam], szam `mod` x==0, isPrime x]
+
+decode :: Dictionary -> Integer -> String 
+decode dict number_to_decode = [current_char | chars<- [x | char_in_digits<-group (primeFactorization number_to_decode), let x = toInteger (length char_in_digits)], let current_char = numToChar dict chars]
