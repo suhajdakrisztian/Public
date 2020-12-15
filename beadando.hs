@@ -59,7 +59,7 @@ translate dict (letter:rest_of_string) = charToNum dict letter : translate dict 
 encode :: Dictionary -> String -> Integer
 encode [] string_to_encode = 1
 encode dict "" = 1
-encode dict string_to_encode = product[(primeList !! prime)^char_in_digits | let x = (translate dict string_to_encode),(prime, char_in_digits)<-(zip [0..] x)]
+encode dict string_to_encode = product[(primeList !! prime)^char_in_digits | (prime, char_in_digits)<-(zip [0..] (translate dict string_to_encode))]
 
 smallestPrimeDivisor :: Integer -> Integer
 smallestPrimeDivisor szam = head [x | x<-[2..szam], szam `mod` x==0, isPrime x]
