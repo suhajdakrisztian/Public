@@ -70,6 +70,9 @@ class Segment {
 
   boolean intersects(Segment s) {
 
+    if (this.myLine == null)
+      throw new NullPointerException("Segment.line() has not been called");
+
     Point objectLineStartPoint = new Point(this.x1, this.y1);
     Point objectLineEndPoint = new Point(this.x2, this.y2);
 
