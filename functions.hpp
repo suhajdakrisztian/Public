@@ -9,17 +9,14 @@ void swap(int *xp, int *yp)
   *yp = temp;
 }
 
-void bubbleSort(int arr[], int n)
-{
+void bubbleSort(int arr[], int n) {
+
   int i, j;
   bool swapped;
-  for (i = 0; i < n-1; i++)
-  {
+  for (i = 0; i < n-1; i++) {
     swapped = false;
-    for (j = 0; j < n-i-1; j++)
-    {
-      if (arr[j] > arr[j+1])
-      {
+    for (j = 0; j < n-i-1; j++) {
+      if (arr[j] > arr[j+1]) {
         swap(&arr[j], &arr[j+1]);
         swapped = true;
       }
@@ -29,30 +26,31 @@ void bubbleSort(int arr[], int n)
   }
 }
 
-int getMaximum(int a[], int n){
+int getMaximum(int a[], int n) {
   int max_index = 0;
-  for(int i = 1; i < n; i++){
-    if(a[i] > a[max_index]){
+
+  for(int i = 1; i < n; i++)
+    if(a[i] > a[max_index])
       max_index = i;
-    }
-  }
+
   return max_index;
 }
 
-int getMinimum(int a[], int n){
+int getMinimum(int a[], int n) {
   int min_index = 0;
-  for(int i = 1; i < n; i++){
-    if(a[i] < a[min_index]){
-      min_index = i;
-    }
 
-  }
+  for(int i = 1; i < n; i++)
+    if(a[i] < a[min_index])
+      min_index = i;
+
   return min_index;
 }
 
+bool isInRange(int number, int lower_bound, int upper_bound) {
+  return (lower_bound <= number && number <= upper_bound);
+}
 
-int countDistinct(int arr[], int len
-){
+int countDistinct(int arr[], int len) {
   int uniques[len] = {};
   int difcount = 0;
   int j = 0;
@@ -68,7 +66,6 @@ int countDistinct(int arr[], int len
       uniques[difcount] = arr[i];
       difcount++;
     }
-
   }
   return difcount;
 }
