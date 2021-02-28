@@ -1,4 +1,4 @@
-public class masodikhazi {
+public class b5mz57 {
     public static void main(String[] args) {
     Segment s = new Segment(3,3,6,6);
     //Point p = new Point(4,4);
@@ -27,8 +27,6 @@ class Line {
   }
 };
 
-
-
 class Segment {
   double x1, y1, x2, y2;
   Line myLine;
@@ -48,7 +46,6 @@ class Segment {
   }
 
   boolean contains(Point p) {
-    //y = mx + c alapjan
     double mx = -(this.myLine._a) / (this.myLine._b);
     double c = (this.myLine._c) / (this.myLine._b);
 
